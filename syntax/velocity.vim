@@ -23,9 +23,15 @@ syn keyword	velocityTodo	contained TODO FIXME XXX
 syn region  htmlString   contained start=+"+ end=+"+ contains=htmlSpecialChar,javaScriptExpression,@htmlPreproc,velocityReference,velocityFormalReference
 syn region  htmlString   contained start=+'+ end=+'+ contains=htmlSpecialChar,javaScriptExpression,@htmlPreproc,velocityReference,velocityFormalReference
 
-"syn region      velocityReference contained start=/\$/ end=/\s/
-syn match velocityReference  "\$[a-zA-X][a-zA-Z\-_]*\(\.[a-za-z][a-za-z\-_]*\)*"
-syn match velocityFormalReference  "\${[a-zA-X][a-zA-Z\-_]*\(\.[a-za-z][a-za-z\-_]*\)*}"
+" the both reference types support the silent mode: $!variableName
+
+syn match velocityIdentifier "[a-zA-Z][a-zA-Z_\-0-9]*" contained
+
+syn region velocityReference         start=/\$/    skip=/(\s*\|\s*,\s*\|\s*)/   end=/\s\|$/  contains=velocityIdentifier,velocityString,velocityNumber
+syn region velocitySilentReference   start=/\$\!/  skip=/(\s*\|\s*,\s*\|\s*)/   end=/\s\|$/   contains=velocityIdentifier,velocityString,velocityNumber
+
+syn region velocityFormalReference   start=/\${/      end=/}/          contains=velocityIdentifier,velocityString,velocityNumber
+syn region velocitySilentFormalReference   start=/\$\!{/      end=/}/  contains=velocityIdentifier,velocityString,velocityNumber
 
 " keywords:
 syn keyword velocityKeyWord contained set if else elseif end foreach include parse stop macro
@@ -55,15 +61,18 @@ if version >= 508 || !exists("did_velocity_syntax_inits")
     command -nargs=+ HiLink hi def link <args>
   endif
 
-  HiLink velocityLineComment       Comment
-  HiLink velocityMultilineComment  Comment
-  HiLink velocityTodo              Todo
-  HiLink velocityKeyWord           KeyWord
-  HiLink velocityReference         Identifier
-  HiLink velocityFormalReference   Identifier
-  HiLink velocityNumber            Number
-  HiLink velocityString	           String
-  HiLink velocityInitialSharp      KeyWord
+  HiLink velocityLineComment             Comment
+  HiLink velocityMultilineComment        Comment
+  HiLink velocityTodo                    Todo
+  HiLink velocityKeyWord                 KeyWord
+  HiLink velocityReference               Special 
+  HiLink velocitySilentReference         Special 
+  HiLink velocityFormalReference         Special 
+  HiLink velocitySilentFormalReference   Special 
+  HiLink velocityIdentifier              Identifier
+  HiLink velocityNumber                  Number
+  HiLink velocityString	                 String
+  HiLink velocityInitialSharp            KeyWord
 
   delcommand HiLink
 endif
