@@ -27,7 +27,10 @@ syn region  htmlString   contained start=+'+ end=+'+ contains=htmlSpecialChar,ja
 
 syn match velocityIdentifier "[a-zA-Z][a-zA-Z_\-0-9]*" contained
 
-syn region velocityReference         start=/\$/    skip=/(\s*\|\s*,\s*\|\s*)/   end=/\s\|$/  contains=velocityIdentifier,velocityString,velocityNumber
+" changed on suggestion from Philippe Paravicini <philippe.paravicini@datalex.com>
+" syn region velocityReference         start=/\$/    skip=/(\s*\|\s*,\s*\|\s*)/   end=/\s\|$/  contains=velocityIdentifier,velocityString,velocityNumber
+syn region velocityReference         start=/\$/    skip=/([^)])/                end=/\s\|$/  contains=velocityIdentifier,velocityString,velocityNumber
+
 syn region velocitySilentReference   start=/\$\!/  skip=/(\s*\|\s*,\s*\|\s*)/   end=/\s\|$/   contains=velocityIdentifier,velocityString,velocityNumber
 
 syn region velocityFormalReference   start=/\${/      end=/}/          contains=velocityIdentifier,velocityString,velocityNumber
