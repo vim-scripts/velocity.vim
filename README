@@ -1,0 +1,3 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=541
+
+velocity.vim adds syntax highlighting for velocity templates, a template engine for Java from the Jakarta Project (http://jakarta.apache.org/velocity).
